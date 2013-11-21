@@ -97,3 +97,7 @@ int welcomeScreen(int start) {
 	cin >> start;
 	return start;
 }
+
+void userHelp() {
+	cout <<"User help" <<endl;
+}
