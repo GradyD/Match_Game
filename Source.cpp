@@ -2,11 +2,14 @@
 #include <cstdlib>
 #include <iomanip>
 #include <iostream>
+#include <limits>
+#include <string>
 
 using namespace std;
 
 int gameOver(int gameBoard[]);
-int welcomeScreen(int start);
+int welcomeScreen(int &start);
+int userHelp(int &start);
  
 int main() {
 /** Sets color **/
@@ -15,39 +18,34 @@ system("color 4e");
 	int gameBoard[16], first, second, start, difficulty;
 	start = 0;
 /** Fills board[] with number **/
-       int board[16] = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8};
-
+	int board[16] = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8};
 
 /** Shuffles board[] 100% randomly **/
-        srand(time(0));
-        random_shuffle(&board[0], &board[16]);
+	srand(time(0));
+	random_shuffle(&board[0], &board[16]);
         
 /** Fills gameBoard[] with 0 **/
-        for(int i = 0; i < 16; i++)
-                gameBoard[i] = 0;
+	for(int i = 0; i < 16; i++)
+		gameBoard[i] = 0;
 
 /** Prints welcome screen*/
-		welcomeScreen(start);
+	welcomeScreen(start);
 
 /** Loops while invalid numbers are entered **/
-	while((start != 1) || (start != 2)) {
-		cout << "Invalid request, please enter a valid number" << endl;
-		cout << "1.Help/User Manual   2.Game on!" << endl;
-		cout << "Please enter a number: ";
-		cin >> start;
-		system("cls");
-		}
-/** Finds value of start and requests function **/
-        if(start == 1){
-                cout << "User guide working" << endl;
-        }else if(start == 2){
-                cout << "1.Easy (Unlimited guesses)" << endl;
+	do {
+		if(start == 1)
+			userHelp(start);
+		else if(start == 2){
+			cout << "1.Easy (Unlimited guesses)" << endl;
 			cout << "2.Medium (25 guesses)" << endl;
 			cout << "3.Hard (10 guesses)" << endl;
 			cout << "Please enter the number of the difficulty desired!" << endl;
 			cin >> difficulty;
-        }else
-                cout << "Error 001" << endl;
+		}else{
+			cout << start << endl;
+			welcomeScreen(start);
+		}
+	}while((start != 1) || (start != 2));	
                 
 /** Prints game board and gets user input **/
         do{
@@ -56,12 +54,12 @@ system("color 4e");
                                 if(i == 3 || i == 7 || i == 11 || i == 15)
                                         cout << endl;
         }
-        cout << "Welcome! Please enter your first guess" << endl;
-        cin >> first;
-                first = first - 1;
+		cout << "Welcome! Please enter your first guess" << endl;
+		cin >> first;
+		first = first - 1;
         cout << "Please enter your second guess" << endl;
         cin >> second;
-                second = second -1;
+		second = second -1;
 
 /** Checks input **/
                 if(board[first] == board[second]){
@@ -84,7 +82,7 @@ int gameOver(int gameBoard[]){
 	 
 }
 
-int welcomeScreen(int start) {
+int welcomeScreen(int &start) {
 	cout << "___  ___      _       _         _____                        " << endl;
 	cout << "|  \\/  |     | |     | |       |  ___\\                       " << endl;
 	cout << "| .  . | __ _| |_ ___| |__     | |     ____ ___  ___   ___    " << endl;
@@ -95,11 +93,12 @@ int welcomeScreen(int start) {
 	cout << "1.Help/User Manual   2.Game on!" << endl;
 	cout << "Please enter a number: ";
 	cin >> start;
+	system("cls");
 	return start;
 }
 
-void userHelp() {
-	cout <<"User help" <<endl;
+int userHelp(int &start) {
+ 	cout <<"User help" <<endl;
 	cout << endl;
 	cout << "To play the game select 2 places on the board to see if they match." << endl;
 	cout << "The places on the board are as follows: "<< endl;
@@ -108,4 +107,11 @@ void userHelp() {
 	cout << "9  10 11 12" << endl;
 	cout << "13 14 15 16" << endl;
 	cout << "If they don't match try again, if they do select another 2 places until you win the game." << endl;
-}
+	cout << "Press enter to play the game.";
+	string s;
+	getline(cin, s);
+	system("cls");
+	start = 2;
+	system("pause");
+	return start;
+ }
