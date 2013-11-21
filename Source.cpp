@@ -108,10 +108,10 @@ int userHelp(int &start) {
 	cout << "13 14 15 16" << endl;
 	cout << "If they don't match try again, if they do select another 2 places until you win the game." << endl;
 	cout << "Press enter to play the game.";
-	string s;
-	getline(cin, s);
+	/*string s;
+	getline(cin, s);*/
+	system("pause");
 	system("cls");
 	start = 2;
-	system("pause");
 	return start;
  }
