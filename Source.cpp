@@ -6,13 +6,14 @@
 using namespace std;
 
 int gameOver(int gameBoard[]);
-
-/** Sets color **/
-//system("color 4e");
+int welcomeScreen(int start);
  
 int main() {
-    int gameBoard[16], first, second, start, difficulty;
-        
+/** Sets color **/
+system("color 4e");
+    
+	int gameBoard[16], first, second, start, difficulty;
+	start = 0;
 /** Fills board[] with number **/
        int board[16] = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8};
 
@@ -26,40 +27,27 @@ int main() {
                 gameBoard[i] = 0;
 
 /** Prints welcome screen*/
-		cout.width(30);
-		cout << "___  ___      _       _         _____                        " << endl;
-        cout << "|  \\/  |     | |     | |       |  ___\\                       " << endl;
-        cout << "| .  . | __ _| |_ ___| |__     | |     ____ ___  ___   ___    " << endl;
-        cout << "| |\\/| |/ _` | __/ __| '_ \\    | | __ / _  |  _ ` _ \\ / _ \\   " << endl;
-        cout << "| |  | | (_| | || (__| | | |   | |_\\ \\ (_| | | | | | | \\__/   " << endl;
-        cout << "\\_|  |_/ \__,_|\\__\\___|_| |_|    \\____/\\__,_|_| |_| |_|\\___|   " << endl;
-        cout << endl;
-/*
-		cout << "Match Game" << endl;
-        cout << "1. Help/User Manual 2. Game on!" << endl;
-        cout << "Please enter a number: ";
-        cin >> start;
+		welcomeScreen(start);
 
-/** Loops while invalid numbers are entered      
-        while(start != 1 || start != 2) {
-                cout << "Invalid request, please enter a valid number" << endl;
-                cout << "1. Help/User Manual 2. Game on!" << endl;
-                cout << "Please enter a number: ";
-                cin >> start;
-
-/** Finds value of start and requests function 
+/** Loops while invalid numbers are entered **/
+	while((start != 1) || (start != 2)) {
+		cout << "Invalid request, please enter a valid number" << endl;
+		cout << "1.Help/User Manual   2.Game on!" << endl;
+		cout << "Please enter a number: ";
+		cin >> start;
+		system("cls");
+		}
+/** Finds value of start and requests function **/
         if(start == 1){
-                //Function to display User guide
+                cout << "User guide working" << endl;
         }else if(start == 2){
-                cout << "1. Easy (Unlimited guesses)" << endl;
-			cout << "2. Medium (25 guesses)" << endl;
-			cout << "3. Hard (10 guesses)" << endl;
+                cout << "1.Easy (Unlimited guesses)" << endl;
+			cout << "2.Medium (25 guesses)" << endl;
+			cout << "3.Hard (10 guesses)" << endl;
 			cout << "Please enter the number of the difficulty desired!" << endl;
 			cin >> difficulty;
         }else
                 cout << "Error 001" << endl;
-		}
-		**/
                 
 /** Prints game board and gets user input **/
         do{
@@ -94,4 +82,18 @@ int gameOver(int gameBoard[]){
                         return false;
         };
 	 
+}
+
+int welcomeScreen(int start) {
+	cout << "___  ___      _       _         _____                        " << endl;
+	cout << "|  \\/  |     | |     | |       |  ___\\                       " << endl;
+	cout << "| .  . | __ _| |_ ___| |__     | |     ____ ___  ___   ___    " << endl;
+	cout << "| |\\/| |/ _` | __/ __| '_ \\    | | __ / _  |  _ ` _ \\ / _ \\   " << endl;
+	cout << "| |  | | (_| | || (__| | | |   | |_\\ \\ (_| | | | | | | \\__/   " << endl;
+	cout << "\\_|  |_/ \__,_|\\__\\___|_| |_|    \\____/\\__,_|_| |_| |_|\\___|   " << endl;
+	cout << endl;
+	cout << "1.Help/User Manual   2.Game on!" << endl;
+	cout << "Please enter a number: ";
+	cin >> start;
+	return start;
 }
