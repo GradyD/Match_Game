@@ -11,17 +11,17 @@ using namespace std;
 int gameOver(int gameBoard[]);
 int welcomeScreen(int &start);
 int userHelp(int &start);
-int valid(int start, int difficulty);
+int valid(int start, int &difficulty);
 void print(int gameBoard[]);
 void logo();
-int userIntput(int &first, int &second, int check, int gameBoard[]);
+int userIntput(int &first, int &second, int check, int gameBoard[], int gamedifficutly);
  
 int main() {
 /** Sets color **/
 system("color 4e");
     
 /** Creats vars **/
-	int gameBoard[16], first, second, start, difficulty;
+	int gameBoard[16], first, second, start, difficulty, gamedifficutly;
 	bool check;
 	start = 0;
 	difficulty = 0;
@@ -44,32 +44,27 @@ system("color 4e");
 	welcomeScreen(start);
 
 /** Loops while invalid numbers are entered **/
-	/* Remove this commit to test options 1 and 2, leave to test game 
 	valid(start, difficulty);
-	*/
-
-/** Difficulty currently not working **/
-	/*switch(difficulty){
-		case(1):
-			cout << "Unlimted guesses" << endl;
-			break;
-		case(2):
-			cout << "30 guesses" << endl;
-			break;
-		case(3):
-			cout << "16 guesses" << endl;
-			break;
-		default:
-			cout << "Error 001" << endl;
-	}*/
+	
+/**Sets difficulty**/
+	if(difficulty == 1){
+		gamedifficutly = 100;
+	}else if(difficulty == 2){
+		gamedifficutly = 50;
+	}else if(difficulty == 3){
+		gamedifficutly = 25;
+	}else
+		cout << "Error 002" << endl;
 
 /** Prints game board and gets user input **/
 	do{
 		system("cls");
-		userIntput(first, second, check, gameBoard);
+		userIntput(first, second, check, gameBoard, gamedifficutly);
 
 /** Checks input **/ 
-		if(board[first] == board[second]){
+		if(first == second){
+			cout << "Invalid input, please enter different guesses" << endl;
+		}else if(board[first] == board[second]){
 			cout << "You have a match!" << endl;
 			gameBoard[first] = board[first];
 			gameBoard[second] = board[second];
@@ -77,8 +72,8 @@ system("color 4e");
 			cout << "You did not get a match, please guess again" << endl;
 
 		Sleep(2000); //Pauses two seconds until I figure out the issue with pressing enter to move on
-	
-	}while(gameOver(gameBoard) != true); //Repeats as long as there are zeros in gameBoard[]
+		gamedifficutly = gamedifficutly - 1;
+	}while(gameOver(gameBoard) != true || gamedifficutly != 0); //Repeats as long as there are zeros in gameBoard[]
 	
 	return 0;
 }
@@ -132,21 +127,19 @@ int userHelp(int &start) {
  }
 
 /** Displays level difficulty **/
-int valid(int start, int difficulty){
-	do {
+int valid(int start, int &difficulty){
 		if(start == 1)
 			userHelp(start);
 		else if(start == 2){
-			cout << "1.Easy (Unlimited guesses)" << endl;
-			cout << "2.Medium (25 guesses)" << endl;
-			cout << "3.Hard (10 guesses)" << endl;
+			cout << "1.Easy (100 guesses)" << endl;
+			cout << "2.Medium (50 guesses)" << endl;
+			cout << "3.Hard (25 guesses)" << endl;
 			cout << "Please enter the number of the difficulty desired!" << endl;
 			cin >> difficulty;
 		}else{
 			cout << start << endl;
 			welcomeScreen(start);
 		}
-	}while((start != 1) || (start != 2));	
   
 	return start, difficulty;
 };
@@ -167,9 +160,10 @@ void print(int gameBoard[]){
 };
 
 /** User input and valid number check **/
-int userIntput(int &first, int &second, int check, int gameBoard[]){
+int userIntput(int &first, int &second, int check, int gameBoard[], int gamedifficutly){
 	print(gameBoard);
 	
+	cout << "You have: " << gamedifficutly << " guesses left" << endl;
 	cout << "\nWelcome! Please enter your first guess" << endl;
 	cin >> first;
 	do{ //Makes sure guess is valid input
