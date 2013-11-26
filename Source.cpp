@@ -10,11 +10,12 @@ using namespace std;
 
 int gameOver(int gameBoard[]);
 int welcomeScreen(int &start);
-int userHelp(int &start);
-int valid(int start, int &difficulty);
+int userHelp(int &start, int difficulty);
+int valid(int start);
 void print(int gameBoard[]);
 void logo();
 int userIntput(int &first, int &second, int check, int gameBoard[], int gamedifficutly);
+int gamedifficulty(int &difficulty);
  
 int main() {
 /** Sets color **/
@@ -44,9 +45,11 @@ system("color 4e");
 	welcomeScreen(start);
 
 /** Loops while invalid numbers are entered **/
-	valid(start, difficulty);
+	valid(start);
 	
 /**Sets difficulty**/
+	gamedifficulty(difficulty);
+
 	if(difficulty == 1){
 		gamedifficutly = 100;
 	}else if(difficulty == 2){
@@ -118,30 +121,24 @@ int userHelp(int &start) {
 	cout << "9  10 11 12" << endl;
 	cout << "13 14 15 16" << endl;
 	cout << "If they don't match try again, if they do select another 2 places until you win the game." << endl;
-	cout << "Press enter to play the game.";
-	//cin.ignore(); This works but causes issues with the current way our code works
-	system("pause"); //Temp work around until above method is working
-	system("cls");
+	cout << "Press the 'S' key to start the game.";
+	char bogus;
+	cin >> bogus;
+	//system("cls");
 	start = 2;
 	return start;
  }
 
 /** Displays level difficulty **/
-int valid(int start, int &difficulty){
-		if(start == 1)
+int valid(int start){
+		if(start == 1){
 			userHelp(start);
-		else if(start == 2){
-			cout << "1.Easy (100 guesses)" << endl;
-			cout << "2.Medium (50 guesses)" << endl;
-			cout << "3.Hard (25 guesses)" << endl;
-			cout << "Please enter the number of the difficulty desired!" << endl;
-			cin >> difficulty;
 		}else{
 			cout << start << endl;
 			welcomeScreen(start);
 		}
   
-	return start, difficulty;
+	return start;
 };
 
 /** Creats gameBoard **/
@@ -195,4 +192,15 @@ int userIntput(int &first, int &second, int check, int gameBoard[], int gamediff
 	}while(check != 0);	
 
 	return first, second;
-}
+};
+
+/** Gets and sets user difficulty level **/
+int gamedifficulty(int &difficulty){
+	cout << "1.Easy (100 guesses)" << endl;
+	cout << "2.Medium (50 guesses)" << endl;
+	cout << "3.Hard (25 guesses)" << endl;
+	cout << "Please enter the number of the difficulty desired!" << endl;
+	cin >> difficulty;
+
+	return difficulty;
+};
