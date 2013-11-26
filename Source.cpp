@@ -46,25 +46,24 @@ system("color 4e");
 	welcomeScreen(start);
 
 /** Loops while invalid numbers are entered **/
-	if(start == 1){
-		userHelp(start);
-	}else{
-		cout << start << endl;
-		welcomeScreen(start);
-	}
-	
-/**Sets difficulty**/
-	gamedifficulty(difficulty);
 	do{
-		if(difficulty == 1){
-			gamedifficutly = 100;
-		}else if(difficulty == 2){
-			gamedifficutly = 50;
-		}else if(difficulty == 3){
-			gamedifficutly = 25;
-		}else
+		if(start == 1){
+			userHelp(start);
+		}else if(start == 2){ //Sets difficulty
 			gamedifficulty(difficulty);
-	}while(difficulty != 1 && difficulty != 2 && difficulty != 3);
+			do{
+				if(difficulty == 1){
+					gamedifficutly = 100;
+				}else if(difficulty == 2){
+					gamedifficutly = 50;
+				}else if(difficulty == 3){
+					gamedifficutly = 25;
+				}else
+					gamedifficulty(difficulty);
+			}while(difficulty != 1 && difficulty != 2 && difficulty != 3);
+		}else
+			welcomeScreen(start);
+	}while(difficulty == 0);
 
 /** Prints game board and gets user input **/
 	do{
