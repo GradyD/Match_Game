@@ -4,15 +4,17 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include <Windows.h>
 
 using namespace std;
 
 int gameOver(int gameBoard[]);
 int welcomeScreen(int &start);
 int userHelp(int &start);
-int check(int start, int difficulty);
+int valid(int start, int difficulty);
 void print(int gameBoard[]);
 void logo();
+int userIntput(int &first, int &second, int check, int gameBoard[]);
  
 int main() {
 /** Sets color **/
@@ -20,8 +22,12 @@ system("color 4e");
     
 /** Creats vars **/
 	int gameBoard[16], first, second, start, difficulty;
+	bool check;
 	start = 0;
 	difficulty = 0;
+	first = 0;
+	second = 0;
+	check = 0;
 
 /** Fills board[] with numbers **/
 	int board[16] = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8};
@@ -39,7 +45,7 @@ system("color 4e");
 
 /** Loops while invalid numbers are entered **/
 	/* Remove this commit to test options 1 and 2, leave to test game 
-	check(start, difficulty);
+	valid(start, difficulty);
 	*/
 
 /** Difficulty currently not working **/
@@ -59,24 +65,22 @@ system("color 4e");
 
 /** Prints game board and gets user input **/
 	do{
-		print(gameBoard);
-		cout << "\nWelcome! Please enter your first guess" << endl;
-		cin >> first;
-		first = first - 1;
-        cout << "Please enter your second guess" << endl;
-        cin >> second;
-		second = second -1;
+		system("cls");
+		userIntput(first, second, check, gameBoard);
 
-/** Checks input **/
-                if(board[first] == board[second]){
-                        cout << "You have a match!" << endl;
-                        gameBoard[first] = board[first];
-                        gameBoard[second] = board[second];
-                }else
-                        cout << "You did not get a match, please guess again" << endl;
-        }while(gameOver(gameBoard) != true); //Repeats as long as there are zeros in gameBoard[]
+/** Checks input **/ 
+		if(board[first] == board[second]){
+			cout << "You have a match!" << endl;
+			gameBoard[first] = board[first];
+			gameBoard[second] = board[second];
+		}else
+			cout << "You did not get a match, please guess again" << endl;
 
-        return 0;
+		Sleep(2000); //Pauses two seconds until I figure out the issue with pressing enter to move on
+	
+	}while(gameOver(gameBoard) != true); //Repeats as long as there are zeros in gameBoard[]
+	
+	return 0;
 }
 
 /** Function to check for zeros on gameBoard **/
@@ -128,7 +132,7 @@ int userHelp(int &start) {
  }
 
 /** Displays level difficulty **/
-int check(int start, int difficulty){
+int valid(int start, int difficulty){
 	do {
 		if(start == 1)
 			userHelp(start);
@@ -143,13 +147,16 @@ int check(int start, int difficulty){
 			welcomeScreen(start);
 		}
 	}while((start != 1) || (start != 2));	
-
+  
 	return start, difficulty;
 };
 
+/** Creats gameBoard **/
 void print(int gameBoard[]){
 	logo();
 		for(int i = 0; i < 16; i++){
+			if(i == 0)
+				cout << "    1   2   3   4" << endl;
 			cout.width(3); //Creats spacing
 			if(i == 0 || i == 4 || i == 8 || i == 12 || i == 16) //Creats Y number row
 				cout << i + 1 << " ";
@@ -158,3 +165,40 @@ void print(int gameBoard[]){
 				cout << endl;
 		}
 };
+
+/** User input and valid number check **/
+int userIntput(int &first, int &second, int check, int gameBoard[]){
+	print(gameBoard);
+	
+	cout << "\nWelcome! Please enter your first guess" << endl;
+	cin >> first;
+	do{ //Makes sure guess is valid input
+		if(first < 1 || first > 16){
+			system("cls");
+			print(gameBoard);
+			cout << "\nNot a valid input, please enter your first guess" << endl;
+			cin >> first;
+		}else{
+			first = first - 1;
+			check = 1;
+		}
+	}while(check != 1);
+
+
+	cout << "Please enter your second guess" << endl;
+	cin >> second;
+	do{ //Makes sure guess is valid input
+		if(second < 1 || second > 16){
+			system("cls");
+			print(gameBoard);
+			cout << "First guess: " << first + 1 << endl;
+			cout << "Not a valid input, please enter your second guess" << endl;
+			cin >> second;
+		}else{
+			second = second - 1;
+			check = 0;
+		}
+	}while(check != 0);	
+
+	return first, second;
+}
